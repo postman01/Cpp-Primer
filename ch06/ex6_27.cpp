@@ -1,23 +1,17 @@
 #include <iostream>
 #include <initializer_list>
 
-using namespace std;
-
-int add(initializer_list<const int> il);
+int sum(std::initializer_list<int> const& il)
+{
+    int sum = 0;
+    for (auto i : il) sum += i;
+    return sum;
+}
 
 int main(void)
 {
-	int result = add({ 1, 2, 3, 4, 5 });
-	
-	cout << result << endl;
+    auto il = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+    std::cout << sum(il) << std::endl;
 
-	return 0;
-}
-
-int add(initializer_list<const int> il)
-{
-	int sum = 0;
-	for (auto a : il)
-		sum += a;
-	return sum;
+    return 0;
 }

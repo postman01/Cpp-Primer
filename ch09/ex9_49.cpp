@@ -1,55 +1,37 @@
-//! @Alan
-//!
-//! Exercise 9.49:
-//! A letter has an ascender if, as with d or f, part of the
-//! letter extends above the middle of the line. A letter has
-//! a descender if, as with p or g, part of the letter extends
-//! below the line.
-//! Write a program that reads a file containing words and reports
-//! the longest word that contains neither ascenders nor descenders.
-//!
+//
+//  ex9_49.cpp
+//  Exercise 9.49
+//
+//  Created by pezy on 12/5/14.
+//
+//  @Brief  A letter has an ascender if, as with d or f, part of the letter extends
+//          above the middle of the line.
+//          A letter has a descender if, as with p or g, part of the letter extends below the line.
+//          Write a program that reads a file containing words and reports the longest word
+//          that contains neither ascenders nor descenders.
+//  
+//  @Refactor  @Yue Wang Jun 2015
+//
 
-#include <iostream>
 #include <string>
 #include <fstream>
-#include <vector>
+#include <iostream>
 
-//! Exercise 9.47
-std::string
-ex949(const std::string &fileName);
+using std::string; using std::cout; using std::endl; using std::ifstream;
 
 int main()
 {
-    std::cout << ex949("test.txt");
+    ifstream ifs("../data/letter.txt");
+    if (!ifs) return -1;
+
+    string longest;
+    auto update_with = [&longest](string const& curr)
+    {
+        if (string::npos == curr.find_first_not_of("aceimnorsuvwxz"))
+            longest = longest.size() < curr.size() ? curr : longest;
+    };
+    for (string curr; ifs >> curr; update_with(curr));
+    cout << longest << endl;
+
     return 0;
-}
-
-
-std::string
-ex949(const std::string &fileName)
-{
-    std::string word;
-    std::ifstream fin(fileName);
-
-    //! store into a vector
-    std::vector<std::string> v;
-    while (fin >> word)
-    {
-        if(word.find_first_not_of("aceimnorsuvwxz") == std::string::npos)
-        {
-            v.push_back(word);
-        }
-    }
-
-    //! move the longest into the string result
-    std::string result;
-    if(v.size() != 0)
-    {
-        for(auto it = v.begin(); it != v.end(); ++it)
-        {
-            if((*it).size() > result.size())    result = *it;
-        }
-    }
-
-    return result;
 }

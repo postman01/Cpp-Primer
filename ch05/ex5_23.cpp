@@ -1,11 +1,13 @@
 #include <iostream>
-using namespace std;
+using std::cin;
+using std::cout;
+using std::endl;
 
-int main(void)
+int main() 
 {
-	int a, b;
-	cin >> a >> b;
-	cout << static_cast<double>(a) / b << endl;
-	
-	return 0;
+    int i, j; 
+    cin >> i >> j;
+    cout << i / j << endl;
+ 
+    return 0;
 }

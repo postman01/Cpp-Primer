@@ -1,34 +1,26 @@
 #include <iostream>
 #include <stdexcept>
-
-using namespace std;
+using std::cin; using std::cout; using std::endl; using std::runtime_error;
 
 int main(void)
 {
-	int a, b;
-	cout << "Enter two numbers :" << endl;
+    for (int i, j; cout << "Input two integers:\n", cin >> i >> j; )
+    {
+        try 
+        {
+            if (j == 0) 
+                throw runtime_error("divisor is 0");
+            cout << i / j << endl;
+        }
+        catch (runtime_error err) 
+        {
+            cout << err.what() << "\nTry again? Enter y or n" << endl;
+            char c;
+            cin >> c;
+            if (!cin || c == 'n')
+                break;
+        }
+    }
 
-	while (cin >> a >> b)
-	{
-		try{
-			if (b == 0)
-				throw runtime_error("divisor is 0");
-			cout << static_cast<double>(a) / b << endl;
-			break;
-		}
-		catch (runtime_error err){
-			cout << err.what()
-				<< "\nTry again ? Enter y or n" << endl;
-			char c;
-			cin >> c;
-			if (!cin || c == 'n')
-				break;
-			else
-			{
-				cout << "Enter two numbers :" << endl;
-			}
-		}
-	}
-
-	return 0;
+    return 0;
 }

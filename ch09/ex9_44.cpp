@@ -1,64 +1,37 @@
-//! @Alan
-//!
-//! Exercise 9.43:
-//! Write a function that takes three strings, s, oldVal, and newVal.
-//! Using iterators, and the insert and erase functions replace all instances of
-//! oldVal that appear in s by newVal.
-//! Test your function by using it to replace common abbreviations,
-//! such as “tho” by “though” and “thru” by “through”.
-//!
-//! Exercise 9.44:
-//! Rewrite the previous function using an index and replace.
-//!
+//
+//  ex9_44.cpp
+//  Exercise 9.44
+//
+//  Created by XDXX on 4/17/15.
+//
+//  @Brief  Rewrite the previous function using an index and replace.
+//  @See    9.43
+//
+//  Refactored by Yue Wang Oct, 2015
+//
 
 #include <iostream>
 #include <string>
 
-//! Exercise 9.44
-std::string&
-ex944(std::string &s, const std::string &oldVal, const std::string &newVal);
+using std::cout; 
+using std::endl;
+using std::string;
+
+auto replace_with(string &s, string const& oldVal, string const& newVal)
+{
+    for (size_t pos = 0; pos <= s.size() - oldVal.size();)
+        if (s[pos] == oldVal[0] && s.substr(pos, oldVal.size()) == oldVal)
+            s.replace(pos, oldVal.size(), newVal),
+            pos += newVal.size();
+        else
+            ++pos;
+}
 
 int main()
 {
-    std::string s("thru   _  thru ");
-    ex944(s,"thru","through");
-    std::cout << s;
-
+    string str{ "To drive straight thru is a foolish, tho courageous act." };
+    replace_with(str, "tho", "though");
+    replace_with(str, "thru", "through");
+    cout << str << endl;
     return 0;
 }
-
-//! Exercise 9.44
-std::string &
-ex944(std::string &s, const std::string &oldVal, const std::string &newVal)
-{
-    //! @note   Return without process,if size too large.
-    if(oldVal.size() > s.size())    return s;
-
-    std::string::size_type i=0;
-    while(i != s.size())
-    {
-        if(s[i] == oldVal[0])
-        {
-            //! @note   build sub_str from s to compare the oldVal laterly
-            auto tmp = s.substr(i, oldVal.size());
-            if (tmp.compare(oldVal) == 0)
-            {
-                s.replace(i,oldVal.size(),newVal);
-
-                //! @note   Manually, move the index to denote the last of the added element:
-                //!         Assuming "through" is newly added:
-                //!         ********through******
-                //                        ^
-                //!         above is where the index i denotes now .
-                //!         by the statement ++i , it will denote the next element as shown below:
-                //!         ********through******
-                //                         ^
-                i = i + newVal.size() - 1;
-            }
-        }
-        ++i;
-    }
-
-    return s;
-}
-
